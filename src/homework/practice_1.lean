@@ -11,6 +11,8 @@ axioms of equality, but either of the theorems about properties
 of equality that we have proven. Hint: There's something about
 this question that makes it much easier to answer than it might
 at first appear.
+
+w = z is already stated, so by the symmetric property of addition which states order does not matter z = w
 -/
 
 /- #2
@@ -22,7 +24,10 @@ all propositions in Lean).
 -/
 
 def prop_1 : Prop := 
-  _
+  ∀ (T: Type)
+  (w z : T),
+  w = z → 
+  z = w
 
 /- #3 (extra credit)
 Give a formal proof of the proposition from #2 by filling in
@@ -33,7 +38,11 @@ again, called eq.refl, eq.subst, eq.symm, eq.trans.
 
 theorem prop_1_proof : prop_1 := 
 begin
-  _
+  assume T,
+  assume w,
+  assume z,
+  assume h,
+  apply eq.symm h
 end
 
 /-
@@ -45,14 +54,19 @@ Give a very brief explanation in English of the introduction
 rule for ∀. For example, suppose you need to prove (∀ x, P x);
 what do you do? (I'm being a little informal in leaving out the
 type of X.) 
+
+given an arbitrary but specific value of type T. By not making 
+assumptions about the value, if we can show that a property of the value is 
+true, then it must be true for all values of that type.
 -/
 
 /- #5
 Suppose you have a proof, let's call it pf, of the proposition,
 (∀ x, P x), and you need a proof of P t, for some particular t.
-Write an expression then uses the elimination rule for ∀ to get
+Write an expression that uses the elimination rule for ∀ to get
 such a proof. Complete the answer by replacing the underscores
-in the following expression: ( _ _ ). 
+in the following expression: ( Assume ∀ x, P x: ∀ t, P t). 
+  (_,_)
 -/
 
 /-
@@ -68,6 +82,8 @@ that n is odd (n % 2 = 1).
 def ev (n : ℕ) := n % 2 = 0
 def odd (n : ℕ) := n % 2 = 1 
 
+
+
 /- #6
 Write a formal version of the proposition that, for *any* 
 natural number n, *if* n is even, *then* n + 1 is odd. Give 
@@ -76,8 +92,8 @@ Hint: put parenthesis around "n + 1" in your answer.
 -/
 
 def successor_of_even_is_odd : Prop := 
-  _
-
+  -
+  
 /- #7
 Suppose that "its_raining" and "the_streets_are_wet" are
 propositions. (We formalize these assumptions as axioms in
@@ -88,7 +104,7 @@ by filling in the hole
 
 axioms (raining streets_wet : Prop)
 
-axiom if_raining_then_streets_wet : _
+axiom if_raining_then_streets_wet : raining → streets_wet
   
 
 /- #9
@@ -101,8 +117,9 @@ you are asked to use the elimination rule for →.
 
 axiom pf_raining : raining
 
-example : streets_wet :=
- _
+
+example : streets_wet  := 
+  (if_raining_then_streets_wet pf_raining)
 
 /- 
 AND: ∧
@@ -147,8 +164,13 @@ theorem and_associative :
   ∀ (P Q R : Prop),
   (P ∧ (Q ∧ R)) → ((P ∧ Q) ∧ R) :=
 begin
-  intros P Q R h,
+  assume P Q R,
+  assume h,
   have p : P := and.elim_left h,
+  have qr : Q ∧ R := and.elim_right h,
+  have q : Q := and.elim_left qr,
+  have r : R := and.elim_right qr,
+  exact and.intro r (and.intro p q)
 end
 
 /- #11
@@ -162,7 +184,7 @@ proof, let's call it p_qr, of (P ∧ (Q ∧ R)) [by
 application of ∧ and → introduction.] What now
 remains to be proved is ((P ∧ Q) ∧ R). We can
 construct a proof of this proposition by applying
-_____ to a proof of (P ∧ Q) and a proof of R.
+and introduction rule to a proof of (P ∧ Q) and a proof of R.
 What remains, then, is to obtain these proofs.
 But this is easily done by the application of
 ____ to ____. QED. 
