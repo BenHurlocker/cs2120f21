@@ -15,6 +15,8 @@ at first appear.
 w = z is already stated, so by the symmetric property of addition which states order does not matter z = w
 -/
 
+
+
 /- #2
 Give a formal statement of the conjecture (proposition) from
 #1 by filling in the "hole" in the following definition. The
