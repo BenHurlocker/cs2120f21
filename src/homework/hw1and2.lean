@@ -26,10 +26,14 @@ all propositions in Lean).
 -/
 
 def prop_1 : Prop := 
+<<<<<<< HEAD:src/homework/practice_1.lean
   ∀ (T: Type)
   (w z : T),
   w = z → 
   z = w
+=======
+  ∀ (T : Type) (x y z w : T), x = y → y = z → w = z → z = w
+>>>>>>> fcba5ad44160653f0c0421bdee35d9d0532b3390:src/homework/hw1and2.lean
 
 /- #3 (extra credit)
 Give a formal proof of the proposition from #2 by filling in
@@ -40,11 +44,17 @@ again, called eq.refl, eq.subst, eq.symm, eq.trans.
 
 theorem prop_1_proof : prop_1 := 
 begin
+<<<<<<< HEAD:src/homework/practice_1.lean
   assume T,
   assume w,
   assume z,
   assume h,
   apply eq.symm h
+=======
+  assume T x y z w,
+  assume xy yz zw,
+  exact eq.symm zw,
+>>>>>>> fcba5ad44160653f0c0421bdee35d9d0532b3390:src/homework/hw1and2.lean
 end
 
 /-
@@ -62,6 +72,11 @@ assumptions about the value, if we can show that a property of the value is
 true, then it must be true for all values of that type.
 -/
 
+/-
+Assume you;re given an arbitrary but specific x, show that 
+it satisfies P;  because the choice  was arbirtrary, P must be
+true of any x (you could have picked any of them!)-/
+
 /- #5
 Suppose you have a proof, let's call it pf, of the proposition,
 (∀ x, P x), and you need a proof of P t, for some particular t.
@@ -70,6 +85,26 @@ such a proof. Complete the answer by replacing the underscores
 in the following expression: ( Assume ∀ x, P x: ∀ t, P t). 
   (_,_)
 -/
+
+
+axioms 
+(Ball : Type)
+(blue : Ball → Prop)
+(allBallsBlue : ∀ (b : Ball), blue b)
+(tomsBall : Ball)
+
+theorem tomsBallIsBlue : blue tomsBall := 
+  allBallsBlue tomsBall
+
+#check allBallsBlue
+
+example : ∀ (P Q : Prop), P ∧ Q → Q ∧ P :=
+begin
+  assume P Q h,
+  have p : P := h.left,
+  have q : Q := h.right,
+  exact and.intro q p,
+end
 
 /-
 IMPLIES: →
@@ -94,8 +129,13 @@ Hint: put parenthesis around "n + 1" in your answer.
 -/
 
 def successor_of_even_is_odd : Prop := 
+<<<<<<< HEAD:src/homework/practice_1.lean
   -
   
+=======
+  ∀ (n : ℕ), ev n → odd (n + 1)
+
+>>>>>>> fcba5ad44160653f0c0421bdee35d9d0532b3390:src/homework/hw1and2.lean
 /- #7
 Suppose that "its_raining" and "the_streets_are_wet" are
 propositions. (We formalize these assumptions as axioms in
@@ -119,9 +159,14 @@ you are asked to use the elimination rule for →.
 
 axiom pf_raining : raining
 
+<<<<<<< HEAD:src/homework/practice_1.lean
 
 example : streets_wet  := 
   (if_raining_then_streets_wet pf_raining)
+=======
+example : streets_wet :=
+ if_raining_then_streets_wet pf_raining
+>>>>>>> fcba5ad44160653f0c0421bdee35d9d0532b3390:src/homework/hw1and2.lean
 
 /- 
 AND: ∧
@@ -169,10 +214,14 @@ begin
   assume P Q R,
   assume h,
   have p : P := and.elim_left h,
+<<<<<<< HEAD:src/homework/practice_1.lean
   have qr : Q ∧ R := and.elim_right h,
   have q : Q := and.elim_left qr,
   have r : R := and.elim_right qr,
   exact and.intro r (and.intro p q)
+=======
+  have q : Q := (and.elim_right h).left
+>>>>>>> fcba5ad44160653f0c0421bdee35d9d0532b3390:src/homework/hw1and2.lean
 end
 
 /- #11
