@@ -128,7 +128,7 @@ then we can derive a proof of p and q
 
 ELIMINATION
 
-Given the elimination rules for ∧ in both
+Give the elimination rules for ∧ in both
 inference rule and English language forms.
 
 English language: if you assume P ∧ Q to
