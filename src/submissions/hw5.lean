@@ -47,12 +47,27 @@ What does this propositon say? Explain it in
 plain English. Here's a start: "If there's a 
 function that maps/takes every α value that ... 
 -- your completed English rendition here:
+
+If there's a function that maps every α value 
+such that a is a value of that type, and you 
+have a proof that α implies β, then you can
+proof there exists a value q of type β. Therefore,
+if a value a of type α exists, then a value b
+of type β exists.
 -/
 
 
 -- Give your formal proof here
 begin
-  _
+  assume h,
+  cases h with f t,
+  assume aex,
+  apply exists.elim aex,
+  assume a,
+  assume pa,
+  apply exists.intro,
+  apply t,
+  apply pa,
 end
   
 
