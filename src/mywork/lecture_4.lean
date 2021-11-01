@@ -109,7 +109,7 @@ Review: Proof: equality is transitive.
 example : eq_trans := 
 begin
   unfold eq_trans,
-  assume T x y z e1 e2, -- introduction rule for ∀ 
+  assume T x y z e1 e2,
   rw e1,                -- elimination rule for =
   exact e2,
 end
@@ -148,4 +148,8 @@ For ∀ x, P x
   - introduction rule, assume arbitrary x, show P x
   - elimination rule, next time!
 -/
-
+/-
+For P -> Q
+  - introduction rule: assume arbitrary P, then show Q
+  - elimination rule:
+-/
