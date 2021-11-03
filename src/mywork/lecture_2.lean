@@ -36,7 +36,13 @@ axiom eq_subst :
   P y               -- then you can deduce (and get a proof) of P y
 
 -- EXAMPLES
-
+example : ∀ (T : Type) (X Y : Prop), X = Y → Y :=
+begin
+  assume T,
+  assume X Y,
+  assume h,
+  apply
+end
 -- a proposition and a predicate
 def eq_3_3 : Prop := 3 = 3
 def eq_n_3 (n : ℕ) : Prop := n = 3
@@ -154,10 +160,10 @@ theorem eq_trans :
     (e2 : y = z), 
   x = z :=
 begin
-  assume (T : Type), -- take as temporary axiom!
-  assume (x y z : T), -- another one: context!
-  assume (e1 : x = y),
-  assume (e2 : y = z),
+  assume T, -- take as temporary axiom!
+  assume x y z, -- another one: context!
+  assume e1,
+  assume e2,
   rw e1,
   rw e2,      -- eq.refl applied automatically
 end

@@ -100,7 +100,14 @@ there must be) a proof of the proposition,
 t = t; and the existence of this proof,
 in turn, justifies the *judgment* that
 the proposition, 1 = 1, is *true*.  
-
+-/
+example : ∀ {T : Type} (t : T), t = t :=
+begin
+  assume T,
+  assume t,
+  apply eq.refl t,
+end
+/-
 Let's take another look at the axiom that
 let's us *deduce* the *theorem* that 1 = 1.
 Here it is: ∀ {T : Type} (t : T), t = t.
@@ -116,7 +123,7 @@ follow example shows formally (in Lean).
 -/
 
 example : 1 = 1 := 
-  eq.refl 2   -- Lean inferns T = ℕ from 1
+  eq.refl 1   -- Lean inferns T = ℕ from 1
 
 /-
 Yay! We just constructed a formal proof: a
@@ -263,7 +270,7 @@ Give a quasi-formal English language "proof"
 of the proposition that 2 = 2.
 
 Theorem: 2 = 2.
-Proof: [your answer here]
+Proof: 2 = 2By the reflexive property of equality
 
 -/
 
@@ -276,7 +283,7 @@ example to follow!)
 -/
 
 -- answer here
-
+example: 2 = 2 := eq.refl 2
 
 /-
 EXERCISE #3.
@@ -288,7 +295,7 @@ A. Every time the bell has rung, I've gotten a
 nugget. The bell just rung, so I'm gonna get a
 nugget! (Dogs usually say "gonna," by the way).
 
-answer: 
+answer: abductive
 
 B. The "clone repo into container" command did
 nothing. That was clearly wrong. I search around
@@ -298,12 +305,12 @@ have git installed. Ah ha, I thought. That could
 be it. I'll do the obvious experiment and install
 git and see if it works. (It did, by the way.)
 
-answer: 
+answer: inductive
 
 C. It's true that it's raining, and it's true
 that the streets are wet, so it must be true 
 that "it's raining *and* the streets are wet."
 
-answer: 
+answer: deductive
 -/
 end cs2120

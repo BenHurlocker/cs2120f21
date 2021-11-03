@@ -174,6 +174,7 @@ reflexive property of ≤.
 
 example : (3, 9) ∈ { p : ℕ × ℕ | p.2 = p.1 * p.1 } :=
 begin
+  show { p : ℕ × ℕ | p.2 = p.1 * p.1 } (3, 9),
   show 9 = 3 * 3,
   exact rfl,
 end
@@ -185,6 +186,7 @@ property of =.
 
 example : ("Hello", 5) ∈ { p : string × ℕ | p.2 = string.length p.1} :=
 begin
+  show 5 = 5,
   exact rfl,
 end
 

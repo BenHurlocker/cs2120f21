@@ -16,39 +16,39 @@ of the member type, and "reducing to"
 a proposition, possibly "about" that
 value.
 
-In the following example, among other
-things, we see that set ℕ and ℕ → Prop
-are (nearly) interchangeable as types. 
-A set is its defined by its membership
-predicate. The "nearly" is because you
-get to use set notations when you use
-set T rather than T → Prop to specify
-the type of a set value.
+⋆ A set is defined by its membership
+predicate. ⋆
 -/
+def one_to_four : set ℕ := { 1, 2, 3, 4 }
 
-def empte : set ℕ := { n : ℕ | _ }
+def empte : set ℕ := { n : ℕ | false }
 
-def complete : set ℕ := { n : ℕ | _ }
+def complete : set ℕ := { n : ℕ | true }
 
-def evens : set ℕ := { n : ℕ | true }
+def evens : set ℕ := { n : ℕ | ev n }
 
-def ods : set ℕ := { n : ℕ | true }
+def ods : set ℕ := { n : ℕ | od n }
 
-def evens_union_ods : set ℕ := { n : ℕ | _ }
+def evens_union_ods : set ℕ := { n : ℕ | ev n ∨ od n }
+--the set of elements that are in s1 or s2. 
 
-def evens_intersect_ods : set ℕ  := { n : ℕ | _ }
+def evens_intersect_ods : set ℕ  := { n : ℕ | ev n ∧ od n }
 
-def evens_complement : set ℕ := { n : ℕ | _ }
+--the set of elements that are in s1 and s2.
 
-def ods_complement : set ℕ := { n : ℕ | _ }
+def evens_complement : set ℕ := { n : ℕ | ¬ ev n }
 
-def evens_intersect_empty : set ℕ := _
+def ods_complement : set ℕ := { n : ℕ | ¬ od n }
 
-def evens_intersect_complete : set ℕ := _
+def evens_intersect_empty : set ℕ := { n : ℕ | ev n ∧ n ∈ empte}
+-- n is even and n is in the empty set (no evens)
 
-def evens_union_empty : set ℕ := _
+def evens_intersect_complete : set ℕ := { n : ℕ | ev n ∧ true}
+-- n is even and n is in the complete set (all evens)
 
-def evens_union_complete : set ℕ := _
+def evens_union_empty : set ℕ := { n : ℕ | ev n ∨ n ∈ empte}
+
+def evens_union_complete : set ℕ := { n : ℕ | ev n ∨ n ∈ complete}
 
 -- fill in additional interesting combinations
 
@@ -72,6 +72,9 @@ a shorthand for application of a membership
 predicate to a value, but it gives a sense
 of "inclusion" of a value in a collection
 of values.
+
+ev n (is the same as) n ∈ ev
+
 -/
 #check evens 0
 #check 0 ∈ evens
@@ -86,11 +89,15 @@ think of this as the set s1 with the
 elements in s2 "taken away." Sometimes
 people use subtraction notation for
 set difference: s1 - s2.
+
+if s1 is 1, 2, 3, 4,
+and s2 is 1, 3, 5
+then s1 - s2 = 2, 4
 -/
-#check evens \ ods
-#check evens \ evens
-#check evens \ empte
-#check evens \ complete
+#check evens \ ods -- evens
+#check evens \ evens -- empty
+#check evens \ empte -- evens
+#check evens \ complete -- empty
 
 
 /- complement
@@ -105,8 +112,9 @@ set of natural numbers.
 
 def compl_nat (s : set ℕ ) : set ℕ :=
 {a | a ∉ s}
+-- all values a, such that a is not in s (all ℕ)
 
-#check compl_nat evens
+#check compl_nat evens -- compliment of evens = odds
 
 /- union
 The union of two sets, s1 and s2, written
@@ -114,9 +122,9 @@ as s1 ∪ s2, is the set of elements that are
 in s1 or s2. 
 -/
 
-#check ods ∪ complete
-#check ods ∪ empte
-#check ods ∪ evens
+#check ods ∪ complete -- complete set
+#check ods ∪ empte -- odds
+#check ods ∪ evens -- complete set
 
 
 /- intersection 
@@ -124,13 +132,18 @@ in s1 or s2.
 The intersection of two sets, s1 and s2, written
 as s1 ∩ s2, is the set of elements that are in s1
 and in s2.
+
 -/
 
-#check ods ∩ empte
-#check evens ∩ complete
-#check ods ∩ evens
+#check ods ∩ empte -- empty
+#check evens ∩ complete -- evens
+#check ods ∩ evens -- empty
 
 /- product 
+
+s1 : 1 2 3
+s2 : 4 5 6
+- product of two sets are their ordered pairs (9 in this case)
 
 The product of two sets, (s1 : set T) and
 (s2 : set V) is the set of all pairs (t, v),
@@ -142,8 +155,8 @@ In Lean we have to define it ourselves.
 def prodset {T V : Type} (s1 : set T) (s2 : set V) := 
   { pr : T × V | pr.1 ∈ s1 ∧ pr.2 ∈ s2 }
 
-#check prodset evens empte
-#check prodset evens ods 
+#check prodset evens empte -- empty
+#check prodset evens ods
 
 
 /- subset
@@ -155,12 +168,12 @@ proper subset of s2, written s1 ⊂ s2, if every value
 in s1 is in s2 and some value in s2 is not in s1. 
 -/
 
-#check evens ⊆ evens
-#check evens ⊂ evens
-#check evens ⊆ complete
-#check evens ⊂ complete
-#check evens ⊂ empte
-#check ∀ (s : set ℕ), empte ⊆ s
+#check evens ⊆ evens -- true
+#check evens ⊂ evens -- false
+#check evens ⊆ complete -- true
+#check evens ⊂ complete -- true
+#check evens ⊂ empte -- false
+#check ∀ (s : set ℕ), empte ⊆ s -- unsure
 
 
 /- powerset

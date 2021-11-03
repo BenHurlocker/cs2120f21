@@ -174,8 +174,23 @@ end
 SOME THEOREMS INVOLVING FALSE AND NEGATION
 -/
 
+-- its not the case that there is a proof of p and not p
 theorem no_contradiction : ∀ (P : Prop), ¬(P ∧ ¬P) :=
 begin
+  assume P,
+  assume h,
+  cases h,
+  apply not.intro h_right h_left, 
+end
+/-Or do it this way-/
+theorem no_contradiction2 : ∀ (P : Prop), ¬(P ∧ ¬P) :=
+begin
+  assume P,
+  assume h,
+  have p := h.left,
+  have np := h.right,
+  have f := np p,
+  exact f,
 end
 
 /-
@@ -200,7 +215,6 @@ begin
   assume P,
   -- we don't have a proof of either P or of ¬P!
 end
-
 /-
 Let P be the conjecture, "every even whole number 
 greater than 2 is the sum of two prime numbers."
